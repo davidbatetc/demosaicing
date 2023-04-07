@@ -37,7 +37,7 @@ function J = demosaicMalvar2004(I, opts)
         end
     end
 
-    J = cast(J, class(I));
+    J = cast(round(J), class(I));
 end
 
 function color = pixelRawColorId(r, c)
