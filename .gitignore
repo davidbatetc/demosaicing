@@ -1,2 +1,4 @@
 data/
 *.asv
+.idea/
+__pycache__/
