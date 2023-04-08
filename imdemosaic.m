@@ -3,5 +3,7 @@ function J = imdemosaic(I, opts)
         J = demosaicBilinear(I, opts);
     elseif strcmp(opts.method, "malvar2004")
         J = demosaicMalvar2004(I, opts);
+    elseif strcmp(opts.method, "freeman1988")
+        J = demosaicFreeman1988(I, opts);
     end
 end
