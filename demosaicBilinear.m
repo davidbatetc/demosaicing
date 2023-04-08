@@ -15,7 +15,6 @@ function J = demosaicBilinear(I, opts)
 
 
     %% Build the red channel
-    J(1:2:end, 1:2:end, idR) = sI(1:2:end, 1:2:end);
     J(1:2:end, 2:2:end, idR) = findPixelsInPosition(padI, idR, 0, 1);
     J(2:2:end, 1:2:end, idR) = findPixelsInPosition(padI, idR, 1, 0);
     J(2:2:end, 2:2:end, idR) = findPixelsInPosition(padI, idR, 1, 1);
@@ -23,8 +22,6 @@ function J = demosaicBilinear(I, opts)
 
     %% Build the green channel
     J(1:2:end, 1:2:end, idG) = findPixelsInPosition(padI, idG, 0, 0);
-    J(1:2:end, 2:2:end, idG) = sI(1:2:end, 2:2:end);
-    J(2:2:end, 1:2:end, idG) = sI(2:2:end, 1:2:end);
     J(2:2:end, 2:2:end, idG) = findPixelsInPosition(padI, idG, 1, 1);
 
 
@@ -32,7 +29,6 @@ function J = demosaicBilinear(I, opts)
     J(1:2:end, 1:2:end, idB) = findPixelsInPosition(padI, idB, 0, 0);
     J(1:2:end, 2:2:end, idB) = findPixelsInPosition(padI, idB, 0, 1);
     J(2:2:end, 1:2:end, idB) = findPixelsInPosition(padI, idB, 1, 0);
-    J(2:2:end, 2:2:end, idB) = sI(2:2:end, 2:2:end);
 
 
     %% Treat boundaries
