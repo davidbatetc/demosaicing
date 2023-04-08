@@ -10,8 +10,15 @@ function J = demosaicBilinear(I, opts)
     idG = 2;
     idB = 3;
 
+    K = 3;  % Kernel size. Hardcoded.
+    M = (K - 1)/2;  % Half-kernel size
+
     % Some padding to not go out of bounds
-    padI = padarray(sI, [1, 1]);
+    padI = padarray(sI, [M + 1, M + 1], "symmetric");
+    padI(M+1, :) = [];
+    padI(end-M, :) = [];
+    padI(:, M+1) = [];
+    padI(:, end-M) = [];
 
 
     %% Build the red channel

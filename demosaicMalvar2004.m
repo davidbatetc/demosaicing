@@ -14,7 +14,11 @@ function J = demosaicMalvar2004(I, opts)
     M = (K - 1)/2;  % Half-kernel size
 
     % Some padding to not go out of bounds
-    padI = padarray(sI, [M, M]);
+    padI = padarray(sI, [M + 1, M + 1], "symmetric");
+    padI(M+1, :) = [];
+    padI(end-M, :) = [];
+    padI(:, M+1) = [];
+    padI(:, end-M) = [];
 
 
     %% Build the red channel
