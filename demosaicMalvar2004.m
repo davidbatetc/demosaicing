@@ -41,19 +41,7 @@ function J = demosaicMalvar2004(I, opts)
     J(2:2:end, 1:2:end, idB) = findPixelsInPosition(padI, idB, 1, 0);
     J(2:2:end, 2:2:end, idB) = sI(2:2:end, 2:2:end);
 
-
-    %% Treat boundaries
-    if ~isfield(opts, "treatBoundaries") || opts.treatBoundaries == true
-        newOpts = opts;
-        newOpts.treatBoundaries = false;
-        newOpts.castBack = false;
-        wI = demosaicMalvar2004(ones(size(I)), newOpts);
-        J = J./wI;
-    end
-
-    if ~isfield(opts, "castBack") || opts.castBack == true
-        J = cast(J, class(I));
-    end
+    J = cast(J, class(I));
 end
 
 function kernel = getKernel(colorId, mr, mc)
