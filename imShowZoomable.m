@@ -13,17 +13,17 @@ function imShowZoomable(varargin)
                        refSize(3)],...
                        class(images{1}));
     
+    tiledlayout(nrows, ncols, 'TileSpacing', 'none', 'Padding', 'tight');
+    axes = [];
     for idx = 1:nimages
         I = images{idx};
         assert(isequal(refSize, size(I)));
 
-        row0 = floor((idx - 1)/ncols);
-        col0 = mod(idx - 1, ncols);
-
-        imageGrid(row0*refHeight + (1:refHeight),...
-                  col0*refWidth + (1:refWidth),...
-                  :) = images{idx};
+        ax = nexttile;
+        imshow(I);
+        axes = [axes ax];
     end
 
-    imshow(imageGrid);
+    linkaxes(axes);
+    %imshow(imageGrid);
 end
