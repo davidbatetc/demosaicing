@@ -1,4 +1,4 @@
-function kernels = findDemosaicKernels(N, weightsSigma, weightsAlpha, weightsDelta)
+function kernels = findDemosaicKernels(N, weightsSigma)
     assert(N >= 5);
     assert(mod(N, 2) == 1);
     assert(weightsSigma > 0);
@@ -11,20 +11,20 @@ function kernels = findDemosaicKernels(N, weightsSigma, weightsAlpha, weightsDel
     tol = 1e-6;
     isSameMatrix = @(A_, B_) all(abs(A_ - B_) < tol, "all");
 
-    kernel00G = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 0, 0, idG);
-    kernel11G = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 1, 1, idG);
+    kernel00G = findDemosaicKernel(N, weightsSigma, 0, 0, idG);
+    kernel11G = findDemosaicKernel(N, weightsSigma, 1, 1, idG);
     assert(isSameMatrix(kernel00G, kernel11G));
 
-    kernel01R = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 0, 1, idR);
-    kernel10B = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 1, 0, idB);
+    kernel01R = findDemosaicKernel(N, weightsSigma, 0, 1, idR);
+    kernel10B = findDemosaicKernel(N, weightsSigma, 1, 0, idB);
     assert(isSameMatrix(kernel01R, kernel10B));
 
-    kernel10R = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 1, 0, idR);
-    kernel01B = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 0, 1, idB);
+    kernel10R = findDemosaicKernel(N, weightsSigma, 1, 0, idR);
+    kernel01B = findDemosaicKernel(N, weightsSigma, 0, 1, idB);
     assert(isSameMatrix(kernel10R, kernel01B));
 
-    kernel00B = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 0, 0, idB);
-    kernel11R = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, 1, 1, idR);
+    kernel00B = findDemosaicKernel(N, weightsSigma, 0, 0, idB);
+    kernel11R = findDemosaicKernel(N, weightsSigma, 1, 1, idR);
     assert(isSameMatrix(kernel00B, kernel11R));
 
     kernels = zeros([N, N, 4], "single");
@@ -34,7 +34,7 @@ function kernels = findDemosaicKernels(N, weightsSigma, weightsAlpha, weightsDel
     kernels(:, :, 4) = kernel00B;
 end
 
-function kernel = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta, mr, mc, colorId)
+function kernel = findDemosaicKernel(N, weightsSigma, mr, mc, colorId)
     nchoose2 = @(n_) n_*(n_ + 1)/2;
     orderLum = 3;
     orderC1 = 1;
@@ -97,9 +97,8 @@ function kernel = findDemosaicKernel(N, weightsSigma, weightsAlpha, weightsDelta
     end
 
     [X, Y] = meshgrid(linspace(-1, 1, N), linspace(-1, 1, N));
-    w = exp(-(abs(X).^weightsAlpha + abs(Y).^weightsAlpha)/(2*weightsSigma*weightsSigma));
+    w = exp(-(X.^2 + Y.^2)/(2*weightsSigma*weightsSigma));
     w(abs(X) + abs(Y) > 1) = 0;
-    w((N + 1)/2, (N + 1)/2) = w((N + 1)/2, (N + 1)/2) + weightsDelta;
     w = w/sum(w, "all");
 
     Mtilde = M*pinv(M'.*w(:)'*M);

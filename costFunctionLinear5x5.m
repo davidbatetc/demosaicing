@@ -1,5 +1,5 @@
-function cost = costFunctionLinear5x5(Is, N, weightsSigma, weightsAlpha, weightsDelta)
-    kernels = findDemosaicKernels(N, weightsSigma, weightsAlpha, weightsDelta);
+function cost = costFunctionLinear5x5(Is, N, weightsSigma)
+    kernels = findDemosaicKernels(N, weightsSigma);
     
     opts.sensorAlignment = "rggb";
     opts.getKernel = getKernelGenerator(kernels);
