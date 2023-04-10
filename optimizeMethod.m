@@ -20,7 +20,9 @@ end
 
 N = 5;
 
-f = @(s_) -costFunctionLinear5x5(Is, N, s_);
-weightsSigma = fminbnd(f, 0.1, 1.0);
+f = @(s_) -costFunctionLinear5x5(Is, N, s_(1), s_(2));
+sStar = fminsearch(f, [0.2; 1.0]);
+weightsSigma = sStar(1);
+weightsAlpha = sStar(2);
 
-fprintf("psnr: %.2f\n", f(weightsSigma));
+fprintf("psnr: %.2f\n", f(sStar));
