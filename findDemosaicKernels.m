@@ -78,5 +78,10 @@ for j = 0:orderC2
 end
 
 
-Mtilde = M*pinv(M'*M);  % No weights for now
-kernel = reshape(L*Mtilde', [5, 5])
+sigma = 0.6;
+gauss1d = exp(-0.5*(linspace(-1, 1, N)'/sigma).^2);
+gauss1d = gauss1d/sum(gauss1d, "all");
+w = gauss1d*gauss1d';
+
+Mtilde = M*pinv(M'.*w(:)'*M);  % No weights for now
+kernel = reshape(L*(Mtilde'.*w(:)'), [5, 5])
