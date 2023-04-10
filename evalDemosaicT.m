@@ -15,8 +15,7 @@ function x = evalDemosaicT(f, N, mr, mc)
 
     assert(all(size(y) == [N, N, 3], "all"));
 
-    % TODO: TEMPORARY, BRING BACK
-    idctMtx = idct(eye(3, 3)); % idctMtx = eye(3, 3);
+    idctMtx = idct(eye(3, 3));
     
     weightsR = permute(idctMtx(idR, :)', [2, 3, 1]);
     weightsG = permute(idctMtx(idG, :)', [2, 3, 1]);
