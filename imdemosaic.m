@@ -7,5 +7,7 @@ function J = imdemosaic(I, opts)
         J = demosaicFreeman1988(I, opts);
     elseif strcmp(opts.method, "laroche1994")
         J = demosaicLaroche1994(I, opts);
+    elseif strcmp(opts.method, "proposed")
+        J = demosaicProposed(I, opts);
     end
 end
