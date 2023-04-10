@@ -98,6 +98,7 @@ function kernel = findDemosaicKernel(N, weightsSigma, weightsAlpha, mr, mc, colo
 
     [X, Y] = meshgrid(linspace(-1, 1, N), linspace(-1, 1, N));
     w = exp(-(abs(X).^weightsAlpha + abs(Y).^weightsAlpha)/(2*weightsSigma*weightsSigma));
+    w(abs(X) + abs(Y) > 1) = 0;
     w = w/sum(w, "all");
 
     Mtilde = M*pinv(M'.*w(:)'*M);
