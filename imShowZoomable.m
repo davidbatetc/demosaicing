@@ -12,18 +12,22 @@ function imShowZoomable(varargin)
                        refWidth*ncols,...
                        refSize(3)],...
                        class(images{1}));
-    
-    tiledlayout(nrows, ncols, 'TileSpacing', 'none', 'Padding', 'tight');
+
     axes = [];
     for idx = 1:nimages
         I = images{idx};
         assert(isequal(refSize, size(I)));
 
-        ax = nexttile;
+        row0 = floor((idx - 1)/ncols);
+        col0 = mod(idx - 1, ncols);
+
+        subplot('Position', [col0/ncols, 1 - (row0 + 1)/nrows, 1/ncols, 1/nrows]);
         imshow(I);
-        axes = [axes ax];
+        axes = [axes gca];
     end
+    p = get(gcf, 'Position');
+    k = [refWidth refHeight]/(refWidth + refHeight);
+    set(gcf, 'Position', [p(1) p(2) (p(3) + p(4)).*k]);
 
     linkaxes(axes);
-    %imshow(imageGrid);
 end
