@@ -25,9 +25,25 @@ function imShowZoomable(varargin)
         imshow(I);
         axes = [axes gca];
     end
+
     p = get(gcf, 'Position');
-    k = [refWidth refHeight]/(refWidth + refHeight);
-    set(gcf, 'Position', [p(1) p(2) (p(3) + p(4)).*k]);
+
+    if refWidth > refHeight
+        scalingFactor = p(3)/(ncols*refWidth);
+    else
+        scalingFactor = p(4)/(nrows*refHeight);
+    end
+    adjust = 2.25;  % Arbitrary adjustment
+    scalingFactor = adjust*scalingFactor;
+
+    plotWidth = ncols*refWidth*scalingFactor;
+    plotHeight = nrows*refHeight*scalingFactor;
+    set(gcf,...
+        'Position',...
+        [p(1) - (plotWidth - p(3))/2,...
+         p(2) + (plotHeight - p(4))/2,...
+         plotWidth,...
+         plotHeight]);
 
     linkaxes(axes);
 end
