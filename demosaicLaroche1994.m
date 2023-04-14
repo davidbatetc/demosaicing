@@ -33,6 +33,8 @@ function J = demosaicLaroche1994(I, opts)
                     0   -2    0
                     0    1    0]/2;
 
+    alphaBetaThreshold = 8;  % Arbitrary
+
     % In red/blue positions
     for m = 0:1
         alpha = convn(padI5((m+1):2:end, (m+1):2:end), kernelAlpha, "valid");
@@ -45,7 +47,8 @@ function J = demosaicLaroche1994(I, opts)
         greenInM = zeros(size(alpha), "single");
         greenInM(alpha > beta) = greenV(alpha > beta);
         greenInM(alpha < beta) = greenH(alpha < beta);
-        greenInM(alpha == beta) = greenCross(alpha == beta);
+        greenInM((alpha - beta) <= alphaBetaThreshold)...
+            = greenCross((alpha - beta) <= alphaBetaThreshold);
 
         J((m+1):2:end, (m+1):2:end, idG) = greenInM;
     end
