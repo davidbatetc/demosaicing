@@ -1,5 +1,5 @@
-function imShowZoomable(varargin)
-    nimages = nargin;
+function imShowZoomable(displayRatio, varargin)
+    nimages = nargin - 1;
     images = varargin;
 
     nrows = floor(sqrt(nimages));
@@ -8,10 +8,18 @@ function imShowZoomable(varargin)
     refSize = size(images{1});
     refHeight = refSize(1);
     refWidth = refSize(2);
-    imageGrid = zeros([refHeight*nrows,...
-                       refWidth*ncols,...
-                       refSize(3)],...
-                       class(images{1}));
+
+    if displayRatio == -1
+        displayRatio = refWidth/refHeight;
+    end
+
+    if refWidth/refHeight < displayRatio
+        croppedHeight = refWidth/displayRatio;
+        croppedWidth = refWidth;
+    else
+        croppedHeight = refHeight;
+        croppedWidth = refHeight*displayRatio;
+    end
 
     axes = [];
     for idx = 1:nimages
@@ -23,21 +31,26 @@ function imShowZoomable(varargin)
 
         subplot('Position', [col0/ncols, 1 - (row0 + 1)/nrows, 1/ncols, 1/nrows]);
         imshow(I);
+
+        ybnd = (refHeight - croppedHeight)/2;
+        xbnd = (refWidth - croppedWidth)/2;
+        xlim(xbnd + [0 croppedWidth]);
+        ylim(ybnd + [0 croppedHeight]);
         axes = [axes gca];
     end
 
     p = get(gcf, 'Position');
 
-    if refWidth > refHeight
-        scalingFactor = p(3)/(ncols*refWidth);
+    if croppedWidth > croppedHeight
+        scalingFactor = p(3)/(ncols*croppedWidth);
     else
-        scalingFactor = p(4)/(nrows*refHeight);
+        scalingFactor = p(4)/(nrows*croppedHeight);
     end
-    adjust = 2.25;  % Arbitrary adjustment
+    adjust = 2;  % Arbitrary adjustment
     scalingFactor = adjust*scalingFactor;
 
-    plotWidth = ncols*refWidth*scalingFactor;
-    plotHeight = nrows*refHeight*scalingFactor;
+    plotWidth = ncols*croppedWidth*scalingFactor;
+    plotHeight = nrows*croppedHeight*scalingFactor;
     set(gcf,...
         'Position',...
         [p(1) - (plotWidth - p(3))/2,...
