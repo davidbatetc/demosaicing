@@ -1,4 +1,4 @@
-function imShowZoomable(displayRatio, varargin)
+function imshowzoomable(displayRatio, varargin)
     nimages = nargin - 1;
     images = varargin;
 

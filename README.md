@@ -43,7 +43,7 @@ malJ = imdemosaic(mI, optsMal);
 
 % Show the original and the two demosaiced images.
 displayRatio = 4/3;
-imShowZoomable(displayRatio, I, bilJ, malJ);
+imshowzoomable(displayRatio, I, bilJ, malJ);
 ```
 
 
