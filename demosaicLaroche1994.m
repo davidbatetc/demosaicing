@@ -33,7 +33,7 @@ function J = demosaicLaroche1994(I, opts)
                     0   -2    0
                     0    1    0]/2;
 
-    alphaBetaThreshold = 8;  % Arbitrary
+    alphaBetaThreshold = 7;  % Arbitrary
 
     % In red/blue positions
     for m = 0:1
