@@ -41,7 +41,7 @@ function J = demosaicBilinear(I, opts)
     end
 
     if ~isfield(opts, "castBack") || opts.castBack == true
-        J = cast(J, class(I));
+        J = cast(round(J), class(I));
     end
 end
 

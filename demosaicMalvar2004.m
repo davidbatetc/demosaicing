@@ -37,7 +37,7 @@ function J = demosaicMalvar2004(I, opts)
     J(1:2:end, 2:2:end, idB) = findPixelsInPosition(padI, idB, 0, 1);
     J(2:2:end, 1:2:end, idB) = findPixelsInPosition(padI, idB, 1, 0);
 
-    J = cast(J, class(I));
+    J = cast(round(J), class(I));
 end
 
 function kernel = getKernel(colorId, mr, mc)

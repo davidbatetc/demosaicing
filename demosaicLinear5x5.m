@@ -39,7 +39,7 @@ function J = demosaicLinear5x5(I, opts)
 
 
     %% Treat boundaries
-    J = cast(J, class(I));
+    J = cast(round(J), class(I));
 end
 
 function pixels = findPixelsInPosition(sI, colorId, mr, mc, getKernel)

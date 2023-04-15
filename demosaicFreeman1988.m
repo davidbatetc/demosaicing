@@ -26,5 +26,5 @@ function J = demosaicFreeman1988(I, opts)
     J(:, :, idB) = filtCb + J(:, :, idG);
     J(2:2:end, 2:2:end, idB) = I(2:2:end, 2:2:end);
 
-    J = cast(J, class(I));
+    J = cast(round(J), class(I));
 end

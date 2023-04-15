@@ -74,7 +74,7 @@ function J = demosaicLaroche1994(I, opts)
     J(2:2:end, 1:2:end, idB) = estimateColor(paddCrb, "horizontal", 1, 0)...
         + J(2:2:end, 1:2:end, idG);
 
-    J = cast(J, class(I));
+    J = cast(round(J), class(I));
 end
 
 function estG = estimateColor(sI, kernelType, mr, mc)
