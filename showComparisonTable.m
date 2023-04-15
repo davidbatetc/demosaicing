@@ -1,11 +1,25 @@
 function showComparisonTable(datasetPaths, methodNames)
+    showFirstN = 5;
+
+    maxMethodNameLength = getMaxMethodNameLength(methodNames);
+    printLeftPaddedString("METHOD", maxMethodNameLength + 4);
+    for l = 1:showFirstN
+        printLeftPaddedString(sprintf("IMAGE %i", l), 16);
+    end
+    printLeftPaddedString("DATASET AVG.", 16);
+    fprintf("\n");
+
     ndatasets = length(datasetPaths);
     for i = 1:ndatasets
-        showComparisonOneDataset(datasetPaths{i}, methodNames);
+        showComparisonOneDataset(datasetPaths{i}, methodNames, showFirstN);
     end
 end
 
-function showComparisonOneDataset(datasetPath, methodNames)
+function printLeftPaddedString(string, padding)
+    fprintf(sprintf("%%-%is", padding), string);
+end
+
+function maxMethodNameLength = getMaxMethodNameLength(methodNames)
     nmethods = length(methodNames);
 
     maxMethodNameLength = 0;
@@ -13,19 +27,23 @@ function showComparisonOneDataset(datasetPath, methodNames)
         maxMethodNameLength = max(maxMethodNameLength,...
                                   strlength(methodNames{j}));
     end
+end
+
+function showComparisonOneDataset(datasetPath, methodNames, showFirstN)
+    nmethods = length(methodNames);
+    maxMethodNameLength = getMaxMethodNameLength(methodNames);
 
     for j = 1:nmethods
         methodName = methodNames{j};
         methodNameFormat = sprintf("%%-%is", maxMethodNameLength + 2);
         fprintf(methodNameFormat, methodName);
-        showComparisonOneDatasetOneMethod(datasetPath, methodName);
+        showComparisonOneDatasetOneMethod(datasetPath, methodName, showFirstN);
     end
 
     fprintf("\n");
 end
 
-function showComparisonOneDatasetOneMethod(datasetPath, methodName)
-    showFirstN = 5;
+function showComparisonOneDatasetOneMethod(datasetPath, methodName, showFirstN)
     filePaths = getFilePaths(datasetPath);
     nimages = length(filePaths);
 
