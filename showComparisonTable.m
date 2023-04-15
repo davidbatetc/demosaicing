@@ -25,7 +25,7 @@ function showComparisonOneDataset(datasetPath, methodNames)
 end
 
 function showComparisonOneDatasetOneMethod(datasetPath, methodName)
-    showFirstN = 9;
+    showFirstN = 5;
     filePaths = getFilePaths(datasetPath);
     nimages = length(filePaths);
 
