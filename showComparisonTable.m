@@ -39,11 +39,11 @@ function showComparisonOneDatasetOneMethod(datasetPath, methodName)
 
     % Then show the errors of the first images
     for k = 1:showFirstN
-        fprintf("%2.2f/%1.4f  ", errPsnrs(k), errSsims(k));
+        fprintf("& %2.2f/%1.4f  ", errPsnrs(k), errSsims(k));
     end
 
     % Then the average
-    fprintf("%2.2f/%1.4f\n", mean(errPsnrs), mean(errSsims));
+    fprintf("& %2.2f/%1.4f  \\\\\n", mean(errPsnrs), mean(errSsims));
 end
 
 function filePaths = getFilePaths(datasetPath)
