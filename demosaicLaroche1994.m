@@ -37,8 +37,8 @@ function J = demosaicLaroche1994(I, opts)
 
     % In red/blue positions
     for m = 0:1
-        alpha = convn(padI5((m+1):2:end, (m+1):2:end), kernelAlpha, "valid");
-        beta = convn(padI5((m+1):2:end, (m+1):2:end), kernelBeta, "valid");
+        alpha = abs(convn(padI5((m+1):2:end, (m+1):2:end), kernelAlpha, "valid"));
+        beta = abs(convn(padI5((m+1):2:end, (m+1):2:end), kernelBeta, "valid"));
 
         greenV = estimateColor(padI3, "vertical", m, m);
         greenH = estimateColor(padI3, "horizontal", m, m);
